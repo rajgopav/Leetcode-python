@@ -1,20 +1,17 @@
 class Solution():
-    def search(self, nums, target):
-        left, right = 0, len(nums) - 1
-
-        if not nums:
-            return -1
-
-        while left <= right:
-            mid = left + (right - left) / 2
-
-            if nums[mid] == target:
-                return mid
-            elif (nums[mid] >= nums[left] and nums[left] <= target < nums[mid]) or \
-                    (nums[mid] < nums[left] and not (nums[mid] < target <= nums[right])):
-                right = mid - 1
-            else:
-                left = mid + 1
-
-        return -1
+    class Solution(object):
+        def search(self, nums, target):
+            """
+            :type nums: List[int]
+            :type target: int
+            :rtype: int
+            """
+            lo, high = 0, len(nums) - 1
+            while lo < high:
+                mid = (lo + high) / 2
+                if (nums[0] > target) ^ (nums[0] > nums[mid]) ^ (target > nums[mid]):
+                    lo = mid + 1
+                else:
+                    high = mid
+            return lo if target in nums[lo:lo + 1] else -1
 

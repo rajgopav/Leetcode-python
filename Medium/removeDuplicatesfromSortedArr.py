@@ -4,22 +4,16 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        if not nums or len(nums) == 0:
+        if not nums:
             return 0
 
-        if len(nums) == 1:
-            return 1
-
-        n = len(nums)
-        n_rep = 0
-        for i in xrange(1, n):
-            if nums[i] == nums[i - 1]:
-                n_rep += 1
-            else:
-                nums[i - n_rep] = nums[i]
-
-        return (n - n_rep)
-
+        last, curr = 0, 1
+        while curr < len(nums):
+            if nums[last] != nums[curr]:
+                last += 1
+                nums[last] = nums[curr]
+            curr += 1
+        return last + 1
 
 if __name__ == '__main__':
     sol = Solution()

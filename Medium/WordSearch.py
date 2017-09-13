@@ -8,27 +8,24 @@ class Solution(object):
         if not board or not word:
             return False
 
-        visited = [[False for j in len(board[0]) for i in len(board)]]
-
         for i in xrange(len(board)):
-            for j in xrange(len(board)):
-                if self.execRecu(board, word, 0, i, j, visited):
+            for j in xrange(len(board[0])):
+                if self.dfs(board, i, j, word):
                     return True
-
         return False
 
-    def execRecu(self, board, word, cur, i, j, visited):
-        if cur == len(word):
+    def dfs(self, board, i, j, word):
+        if len(word) == 0:
             return True
 
-        if i < 0 or i >= len(board) or j < 0 or j >= len(board[0]) or visited[i][j] or board[i][j] != word[cur]:
-            visited[i][j] = False
+        if i < 0 or i >= len(board) or j < 0 or j >= len(board[0]) or board[i][j] != word[0]:
+            return False
 
-        visited[i][j] = True
-        result = self.execRecu(board, word, cur + 1, i - 1, j, visited) or \
-                 self.execRecu(board, word, cur + 1, i + 1, j, visited) or \
-                 self.execRecu(board, word, cur + 1, i, j - 1, visited) or \
-                 self.execRecu(board, word, cur + 1, i, j + 1, visited)
-        visited[i][j] = True
-
-        return result
+        tmp = board[i][j]
+        board[i][j] = '#'
+        res = self.dfs(board,i + 1, j, word[1:]) or \
+              self.dfs(board, i - 1, j, word[1:]) or \
+              self.dfs(board, i, j + 1, word[1:]) or \
+              self.dfs(board, i, j - 1, word[1:])
+        board[i][j] = tmp
+        return res
