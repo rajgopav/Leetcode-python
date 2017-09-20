@@ -1,14 +1,17 @@
 class Solution():
     def minPathSum(self, grid):
-        sum = list(grid[0])
-        for j in xrange(1, len(grid[0])):
-            sum[j] = sum[j - 1] + grid[0][j]
+        m, n = len(grid), len(grid[0])
+        for i in xrange(1, n):
+            grid[0][i] += grid[0][i - 1]
 
-        for i in xrange(1, len(grid)):
-            sum[0] += grid[i][0]
-            for j in xrange(1, len(grid[0])):
-                sum[j] = min(sum[j - 1], sum[j] ) + grid[i][j]
-        return sum[-1]
+        for j in xrange(1, m):
+            grid[j][0] += grid[j - 1][0]
+
+        for i in xrange(1, m):
+            for j in xrange(1, n):
+                grid[i][j] += min(grid[i - 1][j], grid[i][j - 1])
+
+        return grid[m - 1][n - 1]
 
 if __name__ == "__main__":
     print Solution().minPathSum([[0,1]
